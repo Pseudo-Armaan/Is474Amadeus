@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1400">
+<title>SkillBridge — by Amadeus Fire Group</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Tokens ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --salmon:       #E8715A;  --salmon-light: #F2A899;
+  --salmon-pale:  #FDE8E4;  --salmon-deep:  #C9503A;
+  --navy:         #1B2A4A;  --navy-mid:     #243556;
+  --charcoal:     #2E3A50;  --gray:         #8A95A3;
+  --gray-light:   #F4F5F7;  --gray-border:  #DDE1E7;
+  --green:        #3A7D6E;  --green-pale:   #E8F5F2;
+  --amber:        #D4860A;  --amber-pale:   #FFF3CD;
+  --purple:       #7B5EA7;  --white:        #FFFFFF;
+  --off-white:    #FEFCFB;
+}
+body { font-family: 'DM Sans', sans-serif; background: #1a1a2e; min-height: 100vh; }
+
+/* ── Demo chrome bar at very top ─────────────────────────────── */
+.demo-bar {
+  background: #0d0d1a;
+  padding: 10px 24px;
+  display: flex; align-items: center; gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky; top: 0; z-index: 1000;
+}
+.demo-bar-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px; color: var(--salmon);
+  margin-right: 32px; flex-shrink: 0;
+}
+.demo-bar-logo span { color: rgba(255,255,255,0.4); font-size: 11px;
+  font-family: 'DM Sans', sans-serif; font-weight: 400; margin-left: 6px; }
+.screen-tabs { display: flex; gap: 4px; }
+.screen-tab {
+  padding: 7px 18px; border-radius: 6px; cursor: pointer;
+  font-size: 12px; font-weight: 600; border: none;
+  transition: all 0.2s; color: rgba(255,255,255,0.45);
+  background: transparent;
+}
+.screen-tab:hover { color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.05); }
+.screen-tab.active { background: var(--salmon); color: white; }
+.demo-hint {
+  margin-left: auto; font-size: 11px; color: rgba(255,255,255,0.3);
+  font-style: italic;
+}
+
+/* ── Screen container ─────────────────────────────────────────── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SCREEN 1 — LANDING PAGE
+═══════════════════════════════════════════════════════════════ */
+#s1 { background: var(--off-white); }
+
+/* Nav */
+.s1-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 68px; background: var(--white);
+  border-bottom: 1px solid var(--gray-border);
+}
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo-mark { width: 36px; height: 36px; background: var(--salmon); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; }
+.logo-name { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--navy); }
+.logo-sub  { font-size: 10px; color: var(--gray); margin-top: -2px; }
+.s1-nav ul { display: flex; gap: 36px; list-style: none; }
+.s1-nav ul li a { font-size: 14px; color: var(--charcoal); text-decoration: none; font-weight: 500; }
+.s1-nav ul li a:hover { color: var(--salmon); }
+.nav-btns { display: flex; gap: 12px; }
+.btn-ghost { padding: 9px 22px; border: 1.5px solid var(--salmon); color: var(--salmon);
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: none;
+  transition: all 0.18s; }
+.btn-ghost:hover { background: var(--salmon); color: white; }
+.btn-fill { padding: 9px 22px; background: var(--salmon); color: white;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none;
+  transition: all 0.18s; }
+.btn-fill:hover { background: var(--salmon-deep); }
+
+/* Hero */
+.hero {
+  background: var(--navy); padding: 80px 48px 64px;
+  display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero::before { content:''; position:absolute; right:-60px; top:-60px;
+  width:480px; height:480px; border-radius:50%;
+  background:radial-gradient(circle, #243556 0%, transparent 70%); }
+.hero-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--salmon);
+  margin-bottom: 20px; text-transform: uppercase; }
+.hero h1 { font-family: 'DM Serif Display', serif; font-size: 52px; color: white;
+  line-height: 1.1; margin-bottom: 20px; }
+.hero h1 em { color: var(--salmon); font-style: normal; }
+.hero p { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 36px; }
+.hero-btns { display: flex; gap: 16px; }
+.hero-btn-primary { padding: 14px 32px; background: var(--salmon); color: white;
+  border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; border: none;
+  transition: all 0.18s; }
+.hero-btn-primary:hover { background: var(--salmon-deep); transform: translateY(-1px); }
+.hero-btn-secondary { padding: 14px 32px; background: rgba(255,255,255,0.1); color: white;
+  border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.2); transition: all 0.18s; }
+.hero-btn-secondary:hover { background: rgba(255,255,255,0.18); }
+.pathway-cards { display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; }
+.pathway-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+  transition: all 0.2s; cursor: default;
+}
+.pathway-card:hover { background: rgba(255,255,255,0.1); transform: translateX(4px); }
+.pathway-card:first-child { border-color: rgba(232,113,90,0.4); }
+.pathway-icon { width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.pathway-card:nth-child(1) .pathway-icon { background: var(--salmon); }
+.pathway-card:nth-child(2) .pathway-icon { background: var(--green); }
+.pathway-card:nth-child(3) .pathway-icon { background: #7B5EA7; }
+.pathway-card h3 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 3px; }
+.pathway-card p  { font-size: 12px; color: rgba(255,255,255,0.5); }
+.pathway-badge { margin-left: auto; padding: 4px 10px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.pathway-card:nth-child(1) .pathway-badge { background: rgba(232,113,90,0.2); color: var(--salmon-light); }
+.pathway-card:nth-child(2) .pathway-badge { background: rgba(58,125,110,0.2); color: #6DBDAE; }
+.pathway-card:nth-child(3) .pathway-badge { background: rgba(123,94,167,0.2); color: #B09AD4; }
+
+/* How it works */
+.hiw-section { padding: 72px 48px; }
+.section-header { text-align: center; margin-bottom: 52px; }
+.section-header h2 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy); margin-bottom: 12px; }
+.section-header p  { font-size: 15px; color: var(--gray); }
+.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+.step-card { background: white; border-radius: 14px; padding: 28px 24px;
+  border: 1px solid var(--gray-border); position: relative;
+  transition: box-shadow 0.2s, transform 0.2s; }
+.step-card:hover { box-shadow: 0 8px 24px rgba(27,42,74,0.1); transform: translateY(-2px); }
+.step-num { width: 40px; height: 40px; background: var(--salmon-pale); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--salmon); margin-bottom: 18px; }
+.step-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.step-card p  { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+/* Providers strip */
+.providers-section { background: var(--gray-light); padding: 40px 48px;
+  border-top: 1px solid var(--gray-border); }
+.providers-label { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  color: var(--gray); text-transform: uppercase; margin-bottom: 24px; }
+.providers-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.provider-chip { padding: 10px 20px; background: white; border: 1px solid var(--gray-border);
+  border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--charcoal);
+  transition: border-color 0.18s; cursor: default; }
+.provider-chip:hover { border-color: var(--salmon); }
+.provider-chip span { color: var(--gray); font-weight: 400; font-size: 11px; display: block; margin-top: 1px; }
+
+/* CTA section */
+.cta-section { background: var(--navy); padding: 64px 48px; text-align: center; }
+.cta-section h2 { font-family: 'DM Serif Display', serif; font-size: 36px; color: white; margin-bottom: 16px; }
+.cta-section p  { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 36px; }
+.cta-btns { display: flex; gap: 16px; justify-content: center; }
+.cta-btn-e { padding: 14px 40px; background: var(--salmon); color: white;
+  border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; border: none;
+  transition: all 0.18s; }
+.cta-btn-e:hover { background: var(--salmon-deep); }
+.cta-btn-j { padding: 14px 40px; background: rgba(255,255,255,0.1); color: white;
+  border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.2); transition: all 0.18s; }
+.cta-btn-j:hover { background: rgba(255,255,255,0.18); }
+
+footer { background: #0f1e35; padding: 24px 48px;
+  display: flex; justify-content: space-between; align-items: center; }
+footer p { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SCREEN 2 — EMPLOYEE DASHBOARD
+═══════════════════════════════════════════════════════════════ */
+#s2 { background: var(--gray-light); }
+.app { display: flex; min-height: calc(100vh - 48px); }
+
+/* Sidebar */
+.sidebar { width: 220px; background: var(--navy); display: flex; flex-direction: column; flex-shrink: 0; }
+.sidebar-logo { background: var(--salmon); padding: 20px 22px 18px; }
+.sidebar-logo .name { font-family: 'DM Serif Display', serif; font-size: 18px; color: white; }
+.sidebar-logo .sub  { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.sidebar-nav { flex: 1; padding: 20px 0; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 13px 22px;
+  font-size: 13px; color: rgba(255,255,255,0.5); cursor: pointer; position: relative;
+  transition: all 0.15s; }
+.nav-item:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.04); }
+.nav-item.active { background: var(--salmon); color: white; font-weight: 600; }
+.nav-item.active::before { content:''; position:absolute; left:0; top:0; bottom:0;
+  width: 3px; background: var(--salmon-light); }
+.nav-icon { font-size: 15px; width: 20px; text-align: center; }
+.sidebar-user { margin: 16px; background: var(--navy-mid); border-radius: 10px; padding: 14px; }
+.user-row { display: flex; align-items: center; gap: 10px; }
+.user-avatar { width: 36px; height: 36px; background: var(--salmon); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; }
+.user-name { font-size: 12px; font-weight: 600; color: white; }
+.user-role { font-size: 10px; color: var(--gray); margin-top: 2px; }
+
+/* Main content */
+.main { flex: 1; display: flex; flex-direction: column; }
+.topbar { background: white; padding: 0 32px; height: 68px; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid var(--gray-border); flex-shrink: 0; }
+.topbar-title h2 { font-size: 20px; font-weight: 700; color: var(--navy); }
+.topbar-title p  { font-size: 12px; color: var(--gray); margin-top: 2px; }
+.search-box { display: flex; align-items: center; gap: 8px; background: var(--gray-light);
+  border: 1px solid var(--gray-border); border-radius: 8px; padding: 8px 14px; }
+.search-box input { border: none; background: none; font-size: 13px; color: var(--charcoal);
+  outline: none; width: 180px; font-family: 'DM Sans', sans-serif; }
+.notif { width: 36px; height: 36px; background: var(--gray-light); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+  cursor: pointer; position: relative; }
+.notif-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px;
+  background: var(--salmon); border-radius: 50%; border: 2px solid white; }
+.content { flex: 1; padding: 28px 32px; overflow-y: auto; }
+
+/* Banner */
+.banner { background: var(--salmon-pale); border: 1px solid var(--salmon-light);
+  border-radius: 10px; padding: 14px 20px; display: flex; align-items: center;
+  gap: 14px; margin-bottom: 24px; }
+.banner-icon { width: 32px; height: 32px; background: var(--salmon); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; color: white;
+  font-size: 14px; font-weight: 700; flex-shrink: 0; }
+.banner-text { flex: 1; }
+.banner-text strong { font-size: 13px; color: var(--salmon-deep); display: block; }
+.banner-text span   { font-size: 12px; color: var(--charcoal); }
+.progress-bar-wrap { width: 120px; height: 6px; background: rgba(232,113,90,0.2); border-radius: 3px; }
+.progress-bar-fill { width: 72%; height: 100%; background: var(--salmon); border-radius: 3px; }
+.progress-label { font-size: 10px; color: var(--salmon-deep); font-weight: 700; margin-top: 4px; text-align: right; }
+.banner-btn { padding: 8px 18px; background: var(--salmon); color: white;
+  border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; border: none;
+  white-space: nowrap; transition: background 0.18s; }
+.banner-btn:hover { background: var(--salmon-deep); }
+
+/* Stats */
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card { background: white; border-radius: 12px; padding: 20px;
+  border: 1px solid var(--gray-border); position: relative; overflow: hidden;
+  transition: box-shadow 0.2s; }
+.stat-card:hover { box-shadow: 0 4px 16px rgba(27,42,74,0.08); }
+.stat-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.stat-value { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--navy); margin: 8px 0 4px; }
+.stat-label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.stat-sub   { font-size: 12px; margin-top: 6px; font-weight: 500; }
+
+/* Two col */
+.two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.section-head h3 { font-size: 15px; font-weight: 700; color: var(--navy); }
+.count-badge { background: var(--salmon); color: white; border-radius: 20px;
+  padding: 2px 9px; font-size: 11px; font-weight: 700; }
+
+/* Job cards */
+.job-list { display: flex; flex-direction: column; gap: 10px; }
+.job-card { background: white; border-radius: 10px; padding: 16px 18px;
+  border: 1px solid var(--gray-border); display: flex; align-items: center; gap: 14px;
+  transition: box-shadow 0.2s, transform 0.15s; cursor: pointer; }
+.job-card:hover { box-shadow: 0 4px 16px rgba(27,42,74,0.1); transform: translateX(3px); }
+.job-stripe { width: 4px; height: 52px; border-radius: 2px; flex-shrink: 0; }
+.job-info { flex: 1; }
+.job-info h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.job-info p  { font-size: 12px; color: var(--gray); margin-bottom: 8px; }
+.job-tags { display: flex; gap: 6px; align-items: center; }
+.tag { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.tag-posted { background: var(--gray-light); color: var(--gray); font-weight: 400; }
+.match-score { background: var(--salmon-pale); color: var(--salmon-deep);
+  padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700; }
+.apply-btn { padding: 7px 16px; background: var(--salmon); color: white;
+  border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; border: none;
+  transition: background 0.18s; }
+.apply-btn:hover { background: var(--salmon-deep); }
+
+/* Right panel */
+.right-panel { display: flex; flex-direction: column; gap: 20px; }
+.active-course { background: var(--salmon-pale); border: 1px solid var(--salmon-light);
+  border-radius: 12px; padding: 20px; }
+.active-course .label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--salmon-deep); margin-bottom: 10px; }
+.active-course h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.active-course p  { font-size: 12px; color: var(--charcoal); margin-bottom: 14px; }
+.course-progress-wrap { background: rgba(232,113,90,0.2); height: 8px; border-radius: 4px; margin-bottom: 6px; }
+.course-progress-fill { width: 48%; height: 100%; background: var(--salmon); border-radius: 4px; }
+.course-meta { display: flex; justify-content: space-between; align-items: center; }
+.course-meta span { font-size: 11px; color: var(--salmon-deep); font-weight: 600; }
+.continue-btn { padding: 8px 18px; background: var(--salmon); color: white;
+  border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; border: none;
+  transition: background 0.18s; }
+.continue-btn:hover { background: var(--salmon-deep); }
+.rec-list { display: flex; flex-direction: column; gap: 8px; }
+.rec-card { background: white; border-radius: 10px; padding: 14px 16px;
+  border: 1px solid var(--gray-border); display: flex; align-items: center; gap: 12px;
+  transition: box-shadow 0.2s; cursor: pointer; }
+.rec-card:hover { box-shadow: 0 4px 12px rgba(27,42,74,0.08); }
+.rec-stripe { width: 3px; height: 36px; border-radius: 2px; flex-shrink: 0; }
+.rec-info { flex: 1; }
+.rec-info h4 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+.rec-info p  { font-size: 11px; color: var(--gray); }
+.enroll-btn { padding: 6px 14px; border: 1.5px solid var(--salmon); color: var(--salmon);
+  border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; background: none;
+  white-space: nowrap; transition: all 0.18s; }
+.enroll-btn:hover { background: var(--salmon); color: white; }
+.skills-section { background: white; border-radius: 12px; padding: 20px;
+  border: 1px solid var(--gray-border); }
+.skills-section h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+.skill-row { margin-bottom: 12px; }
+.skill-row-top { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.skill-name { font-size: 12px; color: var(--charcoal); font-weight: 500; }
+.skill-pct  { font-size: 12px; font-weight: 700; }
+.skill-bar-bg   { height: 7px; background: var(--gray-light); border-radius: 4px; }
+.skill-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SCREEN 3 — EMPLOYER DASHBOARD
+═══════════════════════════════════════════════════════════════ */
+.kpi-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; margin-bottom: 28px; }
+.kpi-card { background: white; border-radius: 12px; padding: 18px 16px;
+  border: 1px solid var(--gray-border); position: relative; overflow: hidden;
+  transition: box-shadow 0.2s; }
+.kpi-card:hover { box-shadow: 0 4px 16px rgba(27,42,74,0.08); }
+.kpi-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.kpi-label { font-size: 10px; color: var(--gray); text-transform: uppercase;
+  letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px; margin-top: 4px; }
+.kpi-value { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--navy); margin-bottom: 4px; }
+.kpi-sub { font-size: 11px; font-weight: 500; }
+
+/* Form */
+.form-card { background: white; border-radius: 14px; padding: 24px 28px;
+  border: 1px solid var(--gray-border); margin-bottom: 28px; }
+.form-card h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.form-card p  { font-size: 12px; color: var(--gray); margin-bottom: 18px; }
+.form-row   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 14px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 16px; align-items: end; }
+.field label { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+  text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+.field select, .field input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--gray-border);
+  border-radius: 8px; font-size: 13px; color: var(--navy); background: var(--gray-light);
+  font-family: 'DM Sans', sans-serif; outline: none; cursor: pointer;
+  transition: border-color 0.18s; }
+.field select:focus, .field input:focus { border-color: var(--salmon); }
+.field.urgent select { border-color: var(--salmon-light); background: var(--salmon-pale);
+  color: var(--salmon-deep); font-weight: 700; }
+.form-submit { padding: 11px 28px; background: var(--salmon); color: white;
+  border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+  border: none; white-space: nowrap; height: 42px; transition: background 0.18s; }
+.form-submit:hover { background: var(--salmon-deep); }
+
+/* Needs table */
+.needs-table { background: white; border-radius: 12px; border: 1px solid var(--gray-border); overflow: hidden; }
+.table-header { display: grid; grid-template-columns: 2fr 1fr 80px 90px 80px 60px;
+  background: var(--navy); padding: 12px 18px; gap: 8px; }
+.table-header span { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8);
+  text-transform: uppercase; letter-spacing: 0.5px; }
+.table-row { display: grid; grid-template-columns: 2fr 1fr 80px 90px 80px 60px;
+  padding: 13px 18px; gap: 8px; align-items: center;
+  border-bottom: 1px solid var(--gray-border); transition: background 0.15s; cursor: pointer; }
+.table-row:last-child { border-bottom: none; }
+.table-row:hover { background: var(--salmon-pale) !important; }
+.table-row:nth-child(odd)  { background: var(--gray-light); }
+.table-row:nth-child(even) { background: white; }
+.row-name { font-size: 13px; font-weight: 600; color: var(--navy);
+  display: flex; align-items: center; gap: 8px; }
+.row-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.row-text { font-size: 12px; color: var(--charcoal); }
+.view-link { font-size: 12px; font-weight: 700; color: var(--salmon); cursor: pointer; }
+
+/* Provider cards */
+.provider-card { background: white; border-radius: 12px; border: 1px solid var(--gray-border);
+  padding: 18px 20px; margin-bottom: 12px; position: relative;
+  transition: box-shadow 0.2s; }
+.provider-card:hover { box-shadow: 0 6px 20px rgba(27,42,74,0.1); }
+.provider-card.featured { border-color: var(--salmon-light); background: var(--salmon-pale); }
+.featured-tag { position: absolute; top: 14px; right: 14px; background: var(--salmon);
+  color: white; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+.provider-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+.provider-name { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.provider-tags { display: flex; gap: 6px; }
+.provider-match { text-align: right; }
+.match-num   { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--salmon); }
+.match-label { font-size: 10px; color: var(--gray); text-transform: uppercase; }
+.provider-desc { font-size: 12px; color: var(--charcoal); line-height: 1.6; margin-bottom: 12px; }
+.provider-details { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px; }
+.detail-item label { font-size: 10px; color: var(--gray); text-transform: uppercase;
+  letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 2px; }
+.detail-item span  { font-size: 12px; font-weight: 600; color: var(--navy); }
+.provider-cta { display: flex; justify-content: flex-end; }
+.cta-btn-primary { padding: 9px 22px; background: var(--salmon); color: white;
+  border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none;
+  transition: background 0.18s; }
+.cta-btn-primary:hover { background: var(--salmon-deep); }
+.cta-btn-outline { padding: 9px 22px; border: 1.5px solid var(--salmon); color: var(--salmon);
+  border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; background: none;
+  transition: all 0.18s; }
+.cta-btn-outline:hover { background: var(--salmon); color: white; }
+.escrow-box { background: var(--green-pale); border: 1px solid var(--green);
+  border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.escrow-icon { width: 32px; height: 32px; background: var(--green); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+.escrow-text strong { font-size: 13px; color: var(--navy); display: block; margin-bottom: 2px; }
+.escrow-text span   { font-size: 11px; color: var(--charcoal); }
+</style>
+</head>
+<body>
+
+<!-- ── Demo navigation bar ─────────────────────────────────────── -->
+<div class="demo-bar">
+  <div class="demo-bar-logo">SkillBridge <span>Interactive Demo</span></div>
+  <div class="screen-tabs">
+    <button class="screen-tab active" onclick="showScreen('s1', this)">🌐 Landing Page</button>
+    <button class="screen-tab" onclick="showScreen('s2', this)">👤 Job Seeker View</button>
+    <button class="screen-tab" onclick="showScreen('s3', this)">🏢 Employer View</button>
+  </div>
+  <div class="demo-hint">Click the tabs above to switch screens</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCREEN 1 — LANDING PAGE
+══════════════════════════════════════════════════════════════ -->
+<div id="s1" class="screen active">
+  <nav class="s1-nav">
+    <div class="logo">
+      <div class="logo-mark">⬡</div>
+      <div>
+        <div class="logo-name">SkillBridge</div>
+        <div class="logo-sub">by Amadeus Fire Group</div>
+      </div>
+    </div>
+    <ul>
+      <li><a href="#">Platform</a></li>
+      <li><a href="#">For Employers</a></li>
+      <li><a href="#">For Job Seekers</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="showScreen('s2', document.querySelectorAll('.screen-tab')[1])">Log In</button>
+      <button class="btn-fill"  onclick="showScreen('s1', document.querySelectorAll('.screen-tab')[0])">Get Started →</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="hero-label">Germany's First Unified B2B Skills Marketplace</div>
+      <h1>Close Workforce<br>Skill Gaps —<br><em>Your Way</em></h1>
+      <p>Hire the right talent, train your existing team, or deploy AI agents. One platform, one skill need, three pathways.</p>
+      <div class="hero-btns">
+        <button class="hero-btn-primary" onclick="showScreen('s3', document.querySelectorAll('.screen-tab')[2])">I'm an Employer →</button>
+        <button class="hero-btn-secondary" onclick="showScreen('s2', document.querySelectorAll('.screen-tab')[1])">I'm a Job Seeker</button>
+      </div>
+    </div>
+    <div class="pathway-cards">
+      <div class="pathway-card">
+        <div class="pathway-icon">👤</div>
+        <div><h3>Hire</h3><p>Access pre-vetted talent matched to your exact skill need</p></div>
+        <div class="pathway-badge">Hire</div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-icon">📚</div>
+        <div><h3>Learn</h3><p>Upskill your existing team with certified training programs</p></div>
+        <div class="pathway-badge">Learn</div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-icon">🤖</div>
+        <div><h3>Automate</h3><p>Deploy AI agents to handle skill gaps at scale, instantly</p></div>
+        <div class="pathway-badge">Automate</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hiw-section">
+    <div class="section-header">
+      <h2>How It Works</h2>
+      <p>From skill need to fulfilled outcome in four steps</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">1</div><h3>Define Your Skill Need</h3><p>Select a domain, cluster, and specific skill. Set urgency and team size.</p></div>
+      <div class="step-card"><div class="step-num">2</div><h3>Choose a Pathway</h3><p>Hire, train, or automate — or combine pathways for the same gap.</p></div>
+      <div class="step-card"><div class="step-num">3</div><h3>Browse &amp; Match</h3><p>Compare vetted providers with trust tiers, match scores, and transparent pricing.</p></div>
+      <div class="step-card"><div class="step-num">4</div><h3>Pay on Outcomes</h3><p>Fees trigger only when success milestones are met. Performance escrow protects every deal.</p></div>
+    </div>
+  </section>
+
+  <div class="providers-section">
+    <div class="providers-label">Trusted providers across all pathways</div>
+    <div class="providers-row">
+      <div class="provider-chip">eduBITES <span>Agentic AI</span></div>
+      <div class="provider-chip">Masterplan <span>E-Learning</span></div>
+      <div class="provider-chip">Amadeus Fire AG <span>Staffing</span></div>
+      <div class="provider-chip">GFN <span>IT Retraining</span></div>
+      <div class="provider-chip">Endriss <span>Finance &amp; Tax</span></div>
+      <div class="provider-chip">COMCAVE <span>Adult Reskilling</span></div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Ready to Close Your Skill Gap?</h2>
+    <p>Join hundreds of companies already using SkillBridge to hire smarter, train faster, and automate boldly.</p>
+    <div class="cta-btns">
+      <button class="cta-btn-e" onclick="showScreen('s3', document.querySelectorAll('.screen-tab')[2])">Get Started as Employer →</button>
+      <button class="cta-btn-j" onclick="showScreen('s2', document.querySelectorAll('.screen-tab')[1])">Find Opportunities</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 SkillBridge by Amadeus Fire Group · Frankfurt, Germany</p>
+    <p>skillbridge.amadeus-fire.de</p>
+  </footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCREEN 2 — JOB SEEKER DASHBOARD
+══════════════════════════════════════════════════════════════ -->
+<div id="s2" class="screen">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="name">SkillBridge</div>
+        <div class="sub">by Amadeus Fire Group</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active"><span class="nav-icon">⊞</span> Dashboard</div>
+        <div class="nav-item"><span class="nav-icon">🔍</span> Opportunities</div>
+        <div class="nav-item"><span class="nav-icon">📚</span> My Learning</div>
+        <div class="nav-item"><span class="nav-icon">📄</span> Applications</div>
+        <div class="nav-item"><span class="nav-icon">👤</span> My Profile</div>
+        <div class="nav-item"><span class="nav-icon">⚙</span> Settings</div>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-row">
+          <div class="user-avatar">AM</div>
+          <div>
+            <div class="user-name">Anna Mueller</div>
+            <div class="user-role">Job Seeker · Active</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title">
+          <h2>My Dashboard</h2>
+          <p>Welcome back, Anna — here's your skills &amp; opportunities overview</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" placeholder="Search skills, jobs…" />
+          </div>
+          <div class="notif">🔔<div class="notif-dot"></div></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="banner">
+          <div class="banner-icon">!</div>
+          <div class="banner-text">
+            <strong>Complete your profile to unlock more matches</strong>
+            <span>Add certifications and work experience to get seen by 14 more employers</span>
+          </div>
+          <div>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+            <div class="progress-label">72% complete</div>
+          </div>
+          <button class="banner-btn">Complete Profile →</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-accent" style="background:var(--salmon)"></div><div class="stat-label">Profile Views</div><div class="stat-value">38</div><div class="stat-sub" style="color:var(--salmon)">▲ This month</div></div>
+          <div class="stat-card"><div class="stat-accent" style="background:var(--navy)"></div><div class="stat-label">Job Matches</div><div class="stat-value">12</div><div class="stat-sub" style="color:var(--navy)">Based on your skills</div></div>
+          <div class="stat-card"><div class="stat-accent" style="background:var(--green)"></div><div class="stat-label">Courses In Progress</div><div class="stat-value">2</div><div class="stat-sub" style="color:var(--green)">Masterplan + GFN</div></div>
+          <div class="stat-card"><div class="stat-accent" style="background:var(--amber)"></div><div class="stat-label">Applications Sent</div><div class="stat-value">5</div><div class="stat-sub" style="color:var(--amber)">3 currently in review</div></div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="section-head"><h3>Matched Opportunities</h3><span class="count-badge">12</span></div>
+            <div class="job-list">
+              <div class="job-card"><div class="job-stripe" style="background:var(--salmon-deep)"></div><div class="job-info"><h4>AI Solutions Engineer</h4><p>TechFlow GmbH · Berlin · Full-time</p><div class="job-tags"><span class="tag" style="background:var(--salmon-pale);color:var(--salmon-deep)">Automate</span><span class="tag tag-posted">Posted 2d ago</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><div class="match-score">92% match</div><button class="apply-btn">Apply →</button></div></div>
+              <div class="job-card"><div class="job-stripe" style="background:var(--navy)"></div><div class="job-info"><h4>Data Analyst – DACH Region</h4><p>Bosch Digital · Stuttgart · Full-time</p><div class="job-tags"><span class="tag" style="background:#e8eef5;color:var(--navy)">Hire</span><span class="tag tag-posted">Posted 5d ago</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><div class="match-score">87% match</div><button class="apply-btn">Apply →</button></div></div>
+              <div class="job-card"><div class="job-stripe" style="background:var(--navy)"></div><div class="job-info"><h4>SAP SuccessFactors Specialist</h4><p>Siemens AG · Munich · Hybrid</p><div class="job-tags"><span class="tag" style="background:#e8eef5;color:var(--navy)">Hire</span><span class="tag tag-posted">Posted 1 week ago</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><div class="match-score">81% match</div><button class="apply-btn">Apply →</button></div></div>
+              <div class="job-card"><div class="job-stripe" style="background:var(--green)"></div><div class="job-info"><h4>AI Workflow Trainer</h4><p>Masterplan Partner Program · Remote</p><div class="job-tags"><span class="tag" style="background:var(--green-pale);color:var(--green)">Learn</span><span class="tag tag-posted">New program</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><div class="match-score">78% match</div><button class="apply-btn">Apply →</button></div></div>
+            </div>
+          </div>
+          <div class="right-panel">
+            <div>
+              <div class="section-head"><h3>My Learning Path</h3></div>
+              <div class="active-course">
+                <div class="label">Currently Learning</div>
+                <h4>AI Agent Deployment Fundamentals</h4>
+                <p>via Masterplan · Module 4 of 8</p>
+                <div class="course-progress-wrap"><div class="course-progress-fill"></div></div>
+                <div class="course-meta"><span>48% complete</span><button class="continue-btn">Continue →</button></div>
+              </div>
+            </div>
+            <div>
+              <div class="section-head"><h3>Recommended Courses</h3></div>
+              <div class="rec-list">
+                <div class="rec-card"><div class="rec-stripe" style="background:var(--green)"></div><div class="rec-info"><h4>Prompt Engineering Basics</h4><p>eduBITES · 3 hours · Certificate</p></div><button class="enroll-btn">Enroll</button></div>
+                <div class="rec-card"><div class="rec-stripe" style="background:var(--purple)"></div><div class="rec-info"><h4>Data Analytics with Python</h4><p>GFN Online · 12 hours · Certificate</p></div><button class="enroll-btn">Enroll</button></div>
+                <div class="rec-card"><div class="rec-stripe" style="background:var(--amber)"></div><div class="rec-info"><h4>LLM Integration Workshop</h4><p>Masterplan · 6 hours · Certificate</p></div><button class="enroll-btn">Enroll</button></div>
+              </div>
+            </div>
+            <div class="skills-section">
+              <h3>Your Skill Profile</h3>
+              <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Python / SQL</span><span class="skill-pct" style="color:var(--navy)">85%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%;background:var(--navy)"></div></div></div>
+              <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Agentic AI</span><span class="skill-pct" style="color:var(--salmon)">72%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:72%;background:var(--salmon)"></div></div></div>
+              <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Data Analytics</span><span class="skill-pct" style="color:var(--green)">58%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:58%;background:var(--green)"></div></div></div>
+              <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Project Management</span><span class="skill-pct" style="color:var(--amber)">45%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:45%;background:var(--amber)"></div></div></div>
+              <div class="skill-row"><div class="skill-row-top"><span class="skill-name">Cloud / AWS</span><span class="skill-pct" style="color:var(--purple)">40%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:40%;background:var(--purple)"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCREEN 3 — EMPLOYER DASHBOARD
+══════════════════════════════════════════════════════════════ -->
+<div id="s3" class="screen">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="name">SkillBridge</div>
+        <div class="sub">by Amadeus Fire Group</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active"><span class="nav-icon">⊞</span> Dashboard</div>
+        <div class="nav-item"><span class="nav-icon">＋</span> Skill Needs</div>
+        <div class="nav-item"><span class="nav-icon">☰</span> Providers</div>
+        <div class="nav-item"><span class="nav-icon">◈</span> Analytics</div>
+        <div class="nav-item"><span class="nav-icon">⚙</span> Settings</div>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-row">
+          <div class="user-avatar">VB</div>
+          <div>
+            <div class="user-name">VisionNav GmbH</div>
+            <div class="user-role">Enterprise · Admin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title">
+          <h2>Employer Dashboard</h2>
+          <p>VisionNav GmbH · Active skill needs: 7 · Matches this week: 14</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <button class="form-submit" style="height:auto;padding:10px 20px;font-size:13px">＋ New Skill Need</button>
+          <div class="notif">🔔<div class="notif-dot"></div></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="kpi-accent" style="background:var(--salmon)"></div><div class="kpi-label">Active Skill Needs</div><div class="kpi-value">7</div><div class="kpi-sub" style="color:var(--salmon)">▲ +2 this week</div></div>
+          <div class="kpi-card"><div class="kpi-accent" style="background:var(--navy)"></div><div class="kpi-label">Providers Matched</div><div class="kpi-value">24</div><div class="kpi-sub" style="color:var(--navy)">Across 3 pathways</div></div>
+          <div class="kpi-card"><div class="kpi-accent" style="background:var(--green)"></div><div class="kpi-label">Placements YTD</div><div class="kpi-value">11</div><div class="kpi-sub" style="color:var(--green)">▲ 38% vs last year</div></div>
+          <div class="kpi-card"><div class="kpi-accent" style="background:var(--purple)"></div><div class="kpi-label">Avg. Match Time</div><div class="kpi-value">3.2d</div><div class="kpi-sub" style="color:var(--purple)">▼ from 5.1d</div></div>
+          <div class="kpi-card"><div class="kpi-accent" style="background:var(--amber)"></div><div class="kpi-label">Escrow Held</div><div class="kpi-value">€8.4k</div><div class="kpi-sub" style="color:var(--amber)">2 active deals</div></div>
+        </div>
+
+        <div class="form-card">
+          <h3>Define a New Skill Need</h3>
+          <p>Identify the skill — we'll surface Hire, Learn, and Automate options side by side</p>
+          <div class="form-row">
+            <div class="field"><label>Skill Domain</label><select><option>Technology &amp; AI</option><option>Finance &amp; Accounting</option><option>Leadership &amp; Management</option><option>Marketing &amp; Sales</option></select></div>
+            <div class="field"><label>Skill Cluster</label><select><option>Agentic AI</option><option>Data Analytics</option><option>Cybersecurity</option><option>Cloud Infrastructure</option></select></div>
+            <div class="field"><label>Specific Skill</label><select><option>AI Agent Deployment</option><option>Prompt Engineering</option><option>LLM Integration</option><option>Workflow Automation</option></select></div>
+          </div>
+          <div class="form-row-2">
+            <div class="field urgent"><label>Urgency</label><select><option>High — within 4 weeks</option><option>Medium — within 3 months</option><option>Low — no deadline</option></select></div>
+            <div class="field"><label>Team Size</label><select><option>11–50 people</option><option>1–10 people</option><option>51–200 people</option><option>200+ people</option></select></div>
+            <div class="field"><label>Budget Range</label><select><option>€10,000 – €50,000</option><option>Under €10,000</option><option>€50,000 – €200,000</option><option>€200,000+</option></select></div>
+            <button class="form-submit">Find Matches →</button>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="section-head"><h3>Active Skill Needs</h3><span class="count-badge">7</span></div>
+            <div class="needs-table">
+              <div class="table-header"><span>Skill Need</span><span>Pathway</span><span>Matches</span><span>Urgency</span><span>Status</span><span>Action</span></div>
+              <div class="table-row"><div class="row-name"><div class="row-dot" style="background:var(--salmon)"></div>AI Agent Deployment</div><div><span class="tag" style="background:var(--salmon-pale);color:var(--salmon-deep)">Automate</span></div><div class="row-text">3 matches</div><div><span class="tag" style="background:var(--salmon-pale);color:var(--salmon-deep)">High</span></div><div><span class="tag" style="background:#e8f5f2;color:var(--green)">Active</span></div><div class="view-link">View →</div></div>
+              <div class="table-row"><div class="row-name"><div class="row-dot" style="background:var(--amber)"></div>Data Analytics Lead</div><div><span class="tag" style="background:#e8eef5;color:var(--navy)">Hire</span></div><div class="row-text">6 candidates</div><div><span class="tag" style="background:var(--amber-pale);color:var(--amber)">Medium</span></div><div><span class="tag" style="background:var(--amber-pale);color:var(--amber)">Review</span></div><div class="view-link">View →</div></div>
+              <div class="table-row"><div class="row-name"><div class="row-dot" style="background:var(--green)"></div>SAP SF Training</div><div><span class="tag" style="background:var(--green-pale);color:var(--green)">Learn</span></div><div class="row-text">2 programs</div><div><span class="tag" style="background:#f0f0f0;color:var(--gray)">Low</span></div><div><span class="tag" style="background:#e8f5f2;color:var(--green)">Active</span></div><div class="view-link">View →</div></div>
+              <div class="table-row"><div class="row-name"><div class="row-dot" style="background:var(--salmon)"></div>Cyber Audit Prep</div><div><span class="tag" style="background:#ede8f5;color:var(--purple)">L + H</span></div><div class="row-text">4 options</div><div><span class="tag" style="background:var(--salmon-pale);color:var(--salmon-deep)">High</span></div><div><span class="tag" style="background:#e8eef5;color:var(--navy)">New</span></div><div class="view-link">View →</div></div>
+              <div class="table-row"><div class="row-name"><div class="row-dot" style="background:var(--amber)"></div>Python Upskilling</div><div><span class="tag" style="background:var(--green-pale);color:var(--green)">Learn</span></div><div class="row-text">5 programs</div><div><span class="tag" style="background:var(--amber-pale);color:var(--amber)">Medium</span></div><div><span class="tag" style="background:#e8f5f2;color:var(--green)">Active</span></div><div class="view-link">View →</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="section-head"><h3>Top Provider Matches</h3></div>
+            <p style="font-size:12px;color:var(--gray);margin-bottom:14px">For: AI Agent Deployment · Sorted by match score</p>
+            <div class="provider-card featured">
+              <div class="featured-tag">⭐ Best Match</div>
+              <div class="provider-top">
+                <div><div class="provider-name">eduBITES</div><div class="provider-tags"><span class="tag" style="background:var(--salmon-pale);color:var(--salmon-deep)">Automate</span>&nbsp;<span class="tag" style="background:#e8f5f2;color:var(--green)">Verified</span></div></div>
+                <div class="provider-match"><div class="match-num">98%</div><div class="match-label">match score</div></div>
+              </div>
+              <div class="provider-desc">AI-powered knowledge sprints tailored to your team. Modular, fully customized per client. Escrow protected.</div>
+              <div class="provider-details">
+                <div class="detail-item"><label>Structure</label><span>Paid pilot → SaaS</span></div>
+                <div class="detail-item"><label>Deploy Time</label><span>3–5 weeks</span></div>
+                <div class="detail-item"><label>Fee Trigger</label><span>Deploy + threshold</span></div>
+              </div>
+              <div class="provider-cta"><button class="cta-btn-primary">Start Pilot →</button></div>
+            </div>
+            <div class="provider-card">
+              <div class="provider-top">
+                <div><div class="provider-name">TechFlow AI Solutions</div><div class="provider-tags"><span class="tag" style="background:var(--salmon-pale);color:var(--salmon-deep)">Automate</span>&nbsp;<span class="tag" style="background:var(--amber-pale);color:var(--amber)">New</span></div></div>
+                <div class="provider-match"><div class="match-num" style="color:var(--gray);font-size:22px">84%</div><div class="match-label">match score</div></div>
+              </div>
+              <div class="provider-desc">Workflow AI for mid-size teams. Free 2-week trial available.</div>
+              <div class="provider-details">
+                <div class="detail-item"><label>Structure</label><span>Free trial → paid</span></div>
+                <div class="detail-item"><label>Deploy Time</label><span>4–8 weeks</span></div>
+                <div class="detail-item"><label>Fee Trigger</label><span>Deploy + 30-day review</span></div>
+              </div>
+              <div class="provider-cta"><button class="cta-btn-outline">Request Demo</button></div>
+            </div>
+            <div class="escrow-box">
+              <div class="escrow-icon">✓</div>
+              <div class="escrow-text">
+                <strong>Performance Escrow Active on All Deals</strong>
+                <span>Payment held by SkillBridge until agreed thresholds are met.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+function showScreen(id, tabEl) {
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  // Deactivate all tabs
+  document.querySelectorAll('.screen-tab').forEach(t => t.classList.remove('active'));
+  // Show target
+  document.getElementById(id).classList.add('active');
+  if (tabEl) tabEl.classList.add('active');
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+
+// Make sidebar nav items interactive (highlight on click)
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function() {
+    this.closest('.sidebar-nav').querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
